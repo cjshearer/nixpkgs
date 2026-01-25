@@ -1,6 +1,7 @@
 {
   lib,
   buildPythonPackage,
+  callPackage,
   fetchFromGitHub,
   nix-update-script,
 
@@ -43,6 +44,7 @@ buildPythonPackage (finalAttrs: {
   '';
 
   doCheck = false;
+  passthru.tests.trame-server-tests = callPackage ./tests.nix { };
 
   pythonImportsCheck = [ "trame_server" ];
 
