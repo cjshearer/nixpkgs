@@ -19283,8 +19283,9 @@ self: super: with self; {
 
   trakit = callPackage ../development/python-modules/trakit { };
 
-  trame-common = callPackage ../development/python-modules/trame-common { };
+  trame-client = callPackage ../development/python-modules/trame-client { };
 
+  trame-common = callPackage ../development/python-modules/trame-common { };
 
   trampoline = callPackage ../development/python-modules/trampoline { };
 
