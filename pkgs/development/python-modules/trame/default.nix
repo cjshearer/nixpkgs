@@ -1,7 +1,7 @@
 {
   lib,
   buildPythonPackage,
-  fetchFromGitHub,
+  fetchPypi,
   nix-update-script,
 
   # build-system
@@ -13,20 +13,16 @@
   trame-client,
   trame-common,
   wslink,
-
-  # tests
-  pytestCheckHook,
 }:
 buildPythonPackage (finalAttrs: {
   pname = "trame";
   version = "3.12.0";
   pyproject = true;
 
-  src = fetchFromGitHub {
-    owner = "Kitware";
-    repo = "trame";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-U58Tq4/NVcFCZ2vTjilbabnbQhlEf2QS/e/7Zy5l5YU=";
+  src = fetchPypi {
+    inherit (finalAttrs) version;
+    pname = "trame";
+    hash = "sha256-iLhhFiy4sCXoTpPxfc/UOoTQLSwWCMn21Y481kalDAU=";
   };
 
   build-system = [ setuptools ];
@@ -38,8 +34,6 @@ buildPythonPackage (finalAttrs: {
     wslink
     pyyaml
   ];
-
-  nativeCheckInputs = [ pytestCheckHook ];
 
   preBuild = ''
     # Ensure PEP 420 namespace package layout (split across trame-* packages)

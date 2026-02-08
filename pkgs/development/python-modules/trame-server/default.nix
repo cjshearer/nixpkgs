@@ -1,8 +1,7 @@
 {
   lib,
   buildPythonPackage,
-  callPackage,
-  fetchFromGitHub,
+  fetchPypi,
   nix-update-script,
 
   # build-system
@@ -17,16 +16,10 @@ buildPythonPackage (finalAttrs: {
   version = "3.10.0";
   pyproject = true;
 
-  outputs = [
-    "out"
-    "testout"
-  ];
-
-  src = fetchFromGitHub {
-    owner = "Kitware";
-    repo = "trame-server";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-M3UQYJlo539y3M0LyxkHeQJgpVt+AkSXyjpVpukdV8w=j";
+  src = fetchPypi {
+    inherit (finalAttrs) version;
+    pname = "trame_server";
+    hash = "sha256-DDQd6Xb3WP+OYHaZHn8wvhgDhNTzhs8prvo5FbgB0Rg=";
   };
 
   build-system = [ setuptools ];
@@ -35,16 +28,6 @@ buildPythonPackage (finalAttrs: {
     more-itertools
     wslink
   ];
-
-  postInstall = ''
-    mkdir $testout
-    cp -R tests $testout/tests
-
-    rm -rf "$out"/lib/python*/site-packages/{docs,examples,tests}
-  '';
-
-  doCheck = false;
-  passthru.tests.trame-server-tests = callPackage ./tests.nix { };
 
   pythonImportsCheck = [ "trame_server" ];
 
